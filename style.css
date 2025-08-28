@@ -12,75 +12,12 @@ header {
   padding: 1rem;
 }
 
-nav {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-nav .tab {
-  padding: 0.5rem 1rem;
-  margin: 0 0.3rem;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  background: #2980b9;
-  color: white;
-  font-weight: bold;
-}
-
-nav .tab.active {
-  background: #f1c40f;
-  color: black;
-}
-
-main {
-  padding: 2rem;
-}
-
-.tab-content {
-  display: none;
-}
-
-.tab-content.active {
-  display: block;
-}
-
-button {
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-  margin-top: 1rem;
-  background: #27ae60;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #1e8449;
-}
-
-.cartas {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.cartas img {
-  width: 100px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-}
-
 .pesquisa-container {
+  margin: 2rem 0;
   display: flex;
   justify-content: center;
   gap: 0.5rem;
   flex-wrap: wrap;
-  margin-bottom: 1rem;
 }
 
 .pesquisa-container input {
@@ -88,6 +25,55 @@ button:hover {
   font-size: 1rem;
   border-radius: 5px;
   border: 1px solid #ccc;
+}
+
+.pesquisa-container button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  background: #ff0000;
+  color: white;
+  cursor: pointer;
+}
+
+.pesquisa-container button:hover {
+  background: #cc0000;
+}
+
+.resultado {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.card {
+  background: white;
+  width: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.card img {
+  width: 150px;
+  margin-top: 1rem;
+}
+
+.card .info {
+  padding: 0.5rem;
+}
+
+.card .info h3 {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+}
+
+.card .info p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
 }
 
 footer {
@@ -108,16 +94,7 @@ footer a:hover {
 }
 
 @media (max-width: 600px) {
-  .cartas img {
-    width: 70px;
-  }
-  nav {
-    flex-direction: column;
-  }
-  nav .tab {
-    margin: 0.3rem 0;
-  }
-  button {
+  .card {
     width: 100%;
   }
 }

@@ -3,38 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Baralho Cassino</title>
+  <title>Busca de Pokémon</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>🎴 Baralho Cassino</h1>
+    <h1>🔎 Busca de Pokémon</h1>
   </header>
 
-  <nav>
-    <button id="tab-cassino" class="tab active">Cassino</button>
-    <button id="tab-pesquisa" class="tab">Pesquisar</button>
-  </nav>
-
   <main>
-    <!-- Aba Cassino -->
-    <section id="cassino" class="tab-content active">
-      <button onclick="puxarCarta()">Puxar Carta Aleatória</button>
-      <div id="cartaAleatoria" class="cartas"></div>
-    </section>
+    <div class="pesquisa-container">
+      <input type="text" id="inputPokemon" placeholder="Digite o nome do Pokémon">
 
-    <!-- Aba Pesquisa -->
-    <section id="pesquisa" class="tab-content">
-      <div class="pesquisa-container">
-        <input type="text" id="inputCartaCompleta" placeholder="Digite a carta (ex: A♠ ou AS, 10♥ ou 10H)">
-        <button onclick="pesquisarCarta()">Buscar Carta</button>
-      </div>
-      <div id="cartaPesquisada" class="cartas"></div>
-    </section>
+      <select id="selectTipo">
+        <option value="">Todos os tipos</option>
+        <option value="normal">Normal</option>
+        <option value="fire">Fire</option>
+        <option value="water">Water</option>
+        <option value="grass">Grass</option>
+        <option value="electric">Electric</option>
+        <option value="ice">Ice</option>
+        <option value="fighting">Fighting</option>
+        <option value="poison">Poison</option>
+        <option value="ground">Ground</option>
+        <option value="flying">Flying</option>
+        <option value="psychic">Psychic</option>
+        <option value="bug">Bug</option>
+        <option value="rock">Rock</option>
+        <option value="ghost">Ghost</option>
+        <option value="dragon">Dragon</option>
+        <option value="dark">Dark</option>
+        <option value="steel">Steel</option>
+        <option value="fairy">Fairy</option>
+      </select>
+
+      <select id="selectGeracao">
+        <option value="">Todas as gerações</option>
+        <option value="1">Geração I</option>
+        <option value="2">Geração II</option>
+        <option value="3">Geração III</option>
+        <option value="4">Geração IV</option>
+        <option value="5">Geração V</option>
+        <option value="6">Geração VI</option>
+        <option value="7">Geração VII</option>
+        <option value="8">Geração VIII</option>
+      </select>
+
+      <button onclick="pesquisarPokemon()">Buscar</button>
+    </div>
+
+    <div id="resultado" class="resultado"></div>
   </main>
 
   <footer>
-    <p>Feito com ❤️ usando <a href="https://deckofcardsapi.com/" target="_blank">Deck of Cards API</a></p>
+    <p>Feito por Jose Victor usando <a href="https://pokeapi.co/" target="_blank">PokéAPI</a></p>
   </footer>
 
   <script src="script.js"></script>

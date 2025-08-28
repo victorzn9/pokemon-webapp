@@ -1,79 +1,81 @@
-let deckId = null;
+async function pesquisarPokemon() {
+  const nome = document.getElementById('inputPokemon').value.trim().toLowerCase();
+  const tipoFiltro = document.getElementById('selectTipo').value;
+  const geracaoFiltro = document.getElementById('selectGeracao').value;
 
-// Criar baralho embaralhado
-async function criarBaralho() {
-  const res = await fetch("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1");
-  const data = await res.json();
-  deckId = data.deck_id;
-}
+  const resultadoDiv = document.getElementById('resultado');
+  resultadoDiv.innerHTML = '';
 
-// Aba Cassino: puxar carta aleatória
-async function puxarCarta() {
-  if (!deckId) await criarBaralho();
+  // Se nome foi digitado, busca diretamente
+  if (nome) {
+    try {
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${nome}`);
+      if (!res.ok) throw new Error("Pokémon não encontrado");
 
-  const res = await fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`);
-  const data = await res.json();
+      const data = await res.json();
+      if (tipoFiltro && !data.types.some(t => t.type.name === tipoFiltro)) {
+        resultadoDiv.innerHTML = "<p>Nenhum Pokémon encontrado com esse tipo.</p>";
+        return;
+      }
 
-  const div = document.getElementById("cartaAleatoria");
-  if (data.cards.length > 0) {
-    div.innerHTML = `<img src="${data.cards[0].image}" alt="${data.cards[0].value} de ${data.cards[0].suit}">`;
-  } else {
-    div.innerHTML = "<p>Acabaram as cartas! 🔄</p>";
-  }
-}
+      const gen = await fetch(data.species.url).then(r => r.json());
+      const genNumero = parseInt(gen.generation.url.match(/\/(\d+)\/$/)[1]);
+      if (geracaoFiltro && genNumero != geracaoFiltro) {
+        resultadoDiv.innerHTML = "<p>Nenhum Pokémon encontrado nessa geração.</p>";
+        return;
+      }
 
-// Aba Pesquisa: buscar carta pelo input (funciona com símbolos ou letras)
-async function pesquisarCarta() {
-  if (!deckId) await criarBaralho();
+      mostrarPokemon(data, resultadoDiv);
 
-  const input = document.getElementById("inputCartaCompleta").value.trim();
-  if (!input) return alert("Digite a carta!");
-
-  const suitMap = {
-    "♠": "S", "S": "S",
-    "♥": "H", "H": "H",
-    "♦": "D", "D": "D",
-    "♣": "C", "C": "C"
-  };
-
-  // Separar valor e naipe
-  let valor, naipe;
-  if (input.length === 2) {
-    valor = input[0].toUpperCase();
-    naipe = input[1].toUpperCase();
-  } else if (input.length === 3) { // ex: 10H ou 10♥
-    valor = input.slice(0,2).toUpperCase();
-    naipe = input[2].toUpperCase();
-  } else {
-    return alert("Formato inválido! Ex: A♠, 10H, J♣");
+    } catch (err) {
+      resultadoDiv.innerHTML = `<p>${err.message}</p>`;
+    }
+    return;
   }
 
-  if (!suitMap[naipe]) return alert("Naipe inválido! Use ♠, ♥, ♦, ♣ ou S,H,D,C");
-
-  const code = valor + suitMap[naipe];
-
-  const res = await fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?cards=${code}`);
+  // Se nenhum nome digitado, busca por tipo e geração (lista)
+  let url = 'https://pokeapi.co/api/v2/pokemon?limit=1500';
+  const res = await fetch(url);
   const data = await res.json();
 
-  const div = document.getElementById("cartaPesquisada");
-  if (data.cards.length > 0) {
-    div.innerHTML = `<img src="${data.cards[0].image}" alt="${data.cards[0].value} de ${data.cards[0].suit}">`;
-  } else {
-    div.innerHTML = "<p>Carta não encontrada! 🔍</p>";
+  let resultados = [];
+
+  for (let p of data.results) {
+    const pData = await fetch(p.url).then(r => r.json());
+
+    if (tipoFiltro && !pData.types.some(t => t.type.name === tipoFiltro)) continue;
+
+    const genData = await fetch(pData.species.url).then(r => r.json());
+    const genNumero = parseInt(genData.generation.url.match(/\/(\d+)\/$/)[1]);
+    if (geracaoFiltro && genNumero != geracaoFiltro) continue;
+
+    resultados.push(pData);
+    if (resultados.length >= 20) break; // limita resultados
   }
+
+  if (resultados.length === 0) {
+    resultadoDiv.innerHTML = "<p>Nenhum Pokémon encontrado.</p>";
+    return;
+  }
+
+  resultados.forEach(p => mostrarPokemon(p, resultadoDiv));
 }
 
-// Trocar abas
-document.getElementById("tab-cassino").addEventListener("click", () => toggleTab("cassino"));
-document.getElementById("tab-pesquisa").addEventListener("click", () => toggleTab("pesquisa"));
-
-function toggleTab(tab) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
-
-  document.getElementById("tab-" + tab).classList.add("active");
-  document.getElementById(tab).classList.add("active");
+function mostrarPokemon(data, container) {
+  const card = document.createElement('div');
+  card.classList.add('card');
+  card.innerHTML = `
+    <img src="${data.sprites.front_default}" alt="${data.name}">
+    <div class="info">
+      <h3>${capitalize(data.name)}</h3>
+      <p><strong>Tipo:</strong> ${data.types.map(t => capitalize(t.type.name)).join(', ')}</p>
+      <p><strong>Número:</strong> #${data.id}</p>
+    </div>
+  `;
+  container.appendChild(card);
 }
 
-// Inicializa baralho
-criarBaralho();
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
