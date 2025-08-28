@@ -1,0 +1,123 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background: #f4f4f4;
+}
+
+header {
+  background: #2c3e50;
+  color: white;
+  padding: 1rem;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+nav .tab {
+  padding: 0.5rem 1rem;
+  margin: 0 0.3rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  background: #2980b9;
+  color: white;
+  font-weight: bold;
+}
+
+nav .tab.active {
+  background: #f1c40f;
+  color: black;
+}
+
+main {
+  padding: 2rem;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+button {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  margin-top: 1rem;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1e8449;
+}
+
+.cartas {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.cartas img {
+  width: 100px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.pesquisa-container {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.pesquisa-container input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+footer {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #2c3e50;
+  color: white;
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: #f1c40f;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .cartas img {
+    width: 70px;
+  }
+  nav {
+    flex-direction: column;
+  }
+  nav .tab {
+    margin: 0.3rem 0;
+  }
+  button {
+    width: 100%;
+  }
+}

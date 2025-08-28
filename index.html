@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baralho Cassino</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🎴 Baralho Cassino</h1>
+  </header>
+
+  <nav>
+    <button id="tab-cassino" class="tab active">Cassino</button>
+    <button id="tab-pesquisa" class="tab">Pesquisar</button>
+  </nav>
+
+  <main>
+    <!-- Aba Cassino -->
+    <section id="cassino" class="tab-content active">
+      <button onclick="puxarCarta()">Puxar Carta Aleatória</button>
+      <div id="cartaAleatoria" class="cartas"></div>
+    </section>
+
+    <!-- Aba Pesquisa -->
+    <section id="pesquisa" class="tab-content">
+      <div class="pesquisa-container">
+        <input type="text" id="inputCartaCompleta" placeholder="Digite a carta (ex: A♠ ou AS, 10♥ ou 10H)">
+        <button onclick="pesquisarCarta()">Buscar Carta</button>
+      </div>
+      <div id="cartaPesquisada" class="cartas"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Feito com ❤️ usando <a href="https://deckofcardsapi.com/" target="_blank">Deck of Cards API</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
